@@ -49,15 +49,15 @@ env:
     ASSET_URL: https://nannytally.livinginabarnes.com
     LOG_CHANNEL: stderr
     LOG_LEVEL: info
-    DB_CONNECTION: "sqlite"
-    DB_DATABASE: "/dbs/nannytally.sqlite3"
-    CACHE_STORE: "file"
-    BROADCAST_DRIVER: "log"
-    QUEUE_CONNECTION: "database"
-    SESSION_DRIVER: "database"
+    DB_CONNECTION: pgsql
+    CACHE_STORE: file
+    BROADCAST_DRIVER: log
+    QUEUE_CONNECTION: database
+    SESSION_DRIVER: database
     SESSION_LIFETIME: "120"
   secret:
     - APP_KEY
+    - DB_URL
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal app logs -r job" will tail logs from the first server in the job section.
@@ -65,6 +65,7 @@ env:
 aliases:
   console: app exec --reuse -i "sh"
   tinker: app exec --reuse -i "php artisan tinker"
+  logs: app exec --reuser -i "php artisan pail"
 
 # Use a different ssh user than root
 #
@@ -74,7 +75,6 @@ aliases:
 # Use a persistent storage volume.
 #
 volumes:
-  - "dbs:/dbs/"
   - "storage:/app-media/"
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
@@ -92,8 +92,8 @@ asset_path: /var/www/html/public/build
 #
 # accessories:
 #   db:
-#     image: mysql:8.0
-#     host: 192.168.0.2
+#     image: mariadb:11
+#     host: 159.89.89.1
 #     port: 3306
 #     env:
 #       clear:
@@ -103,9 +103,6 @@ asset_path: /var/www/html/public/build
 #         - MYSQL_DATABASE
 #         - MYSQL_USER
 #         - MYSQL_PASSWORD
-#     files:
-#       - config/mysql/production.cnf:/etc/mysql/my.cnf
-#       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
 #     directories:
 #       - data:/var/lib/mysql
 # #   redis:

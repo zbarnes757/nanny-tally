@@ -36,6 +36,8 @@ RUN npm ci && npm run build
 
 FROM base
 
+EXPOSE 8080
+
 COPY --chown=www-data:www-data . /var/www/html
 
 COPY --from=dependencies --chown=www-data:www-data /var/www/html/vendor /var/www/html/vendor
