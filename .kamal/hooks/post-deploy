@@ -1,4 +1,0 @@
-#!/bin/bash -e
-
-kamal app exec -p -q --version $KAMAL_VERSION "php artisan migrate --force"
-kamal app exec -p -q --version $KAMAL_VERSION "php artisan optimize"
